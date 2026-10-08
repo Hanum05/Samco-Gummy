@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samco Gummy - Healthy Bite for a Brighter Tomorrow</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js for AI Monitoring Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dragon: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d'
+                        },
+                        moringa: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #db2777 0%, #be185d 40%, #16a34a 100%);
+        }
+        .gummy-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(236, 72, 153, 0.15);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Navigation Header -->
+    <header class="gradient-header text-white sticky top-0 z-40 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
+                <div class="w-11 h-11 bg-white text-dragon-600 rounded-2xl flex items-center justify-center font-black text-xl shadow-md border-2 border-moringa-500 transform hover:scale-105 transition-all">
+                    SG
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-xl tracking-tight leading-none flex items-center gap-1.5">
+                        SAMCO GUMMY
+                        <span class="text-[10px] bg-moringa-500/30 text-emerald-100 px-2 py-0.5 rounded-full border border-moringa-300/40">PRO</span>
+                    </h1>
+                    <p class="text-xs text-pink-100 font-medium">Healthy Bite for a Brighter Tomorrow</p>
+                </div>
+            </div>
+
+            <!-- Header Quick Stats & Badges -->
+            <div class="hidden md:flex items-center space-x-4 text-xs font-semibold">
+                <div class="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 flex items-center gap-1.5">
+                    <i data-lucide="leaf" class="w-3.5 h-3.5 text-moringa-300"></i>
+                    <span>Ekstrak Kelor & Buah Naga</span>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 flex items-center gap-1.5">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-pink-200"></i>
+                    <span>Indeks Glikemik Rendah</span>
+                </div>
+                <button onclick="openLogModal()" class="bg-white text-dragon-700 hover:bg-pink-50 font-bold px-4 py-2 rounded-xl shadow transition duration-200 flex items-center gap-1.5">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Catat Gula Darah
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs Bar -->
+        <nav class="bg-white/10 backdrop-blur-md border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-4 overflow-x-auto custom-scrollbar">
+                <button id="nav-dashboard" onclick="switchTab('dashboard')" class="nav-btn active text-white border-b-2 border-white py-3 px-3 sm:px-5 font-semibold text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Ringkasan & AI Insight
+                </button>
+                <button id="nav-diagnosa" onclick="switchTab('diagnosa')" class="nav-btn text-pink-100 hover:text-white py-3 px-3 sm:px-5 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
+                    <i data-lucide="activity" class="w-4 h-4"></i> Diagnosa Diabetes
+                </button>
+                <button id="nav-monitoring" onclick="switchTab('monitoring')" class="nav-btn text-pink-100 hover:text-white py-3 px-3 sm:px-5 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
+                    <i data-lucide="line-chart" class="w-4 h-4"></i> AI Blood Glucose Logs
+                </button>
+                <button id="nav-calculator" onclick="switchTab('calculator')" class="nav-btn text-pink-100 hover:text-white py-3 px-3 sm:px-5 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
+                    <i data-lucide="calculator" class="w-4 h-4"></i> Kalkulator Dosis
+                </button>
+                <button id="nav-edukasi" onclick="switchTab('edukasi')" class="nav-btn text-pink-100 hover:text-white py-3 px-3 sm:px-5 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
+                    <i data-lucide="book-open" class="w-4 h-4"></i> Edukasi & Bahan
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- TAB 1: DASHBOARD RINGKASAN -->
+        <section id="tab-dashboard" class="tab-content space-y-6">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-dragon-600 via-dragon-500 to-moringa-600 text-white p-6 sm:p-8 shadow-xl">
+                <div class="absolute -right-10 -bottom-10 opacity-20 pointer-events-none">
+                    <i data-lucide="heart-pulse" class="w-80 h-80 text-white"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold border border-white/30">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-yellow-300"></i> Formulasi Alami Tanpa Gula Tambahan
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">Kontrol Diabetes Lebih Lezat Bersama Samco Gummy</h2>
+                    <p class="text-pink-100 text-xs sm:text-sm leading-relaxed">
+                        Kombinasi sinergis <b>Moringa Oleifera (Kelor)</b>, <b>Buah Naga Merah</b>, dan pemanis alami <b>Xylitol</b>. Dirancang khusus untuk membantu mengontrol kadar glukosa darah dan mendukung pola hidup sehat.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('diagnosa')" class="bg-white text-dragon-700 hover:bg-pink-50 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
+                            <i data-lucide="stethoscope" class="w-4 h-4"></i> Cek Risiko Diabetes
+                        </button>
+                        <button onclick="switchTab('calculator')" class="bg-moringa-700 hover:bg-moringa-800 text-white px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
+                            <i data-lucide="pill" class="w-4 h-4"></i> Hitung Kebutuhan Harian
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="gummy-card p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Rata-rata Gula Darah</p>
+                        <h3 id="dash-avg-glucose" class="text-2xl font-black text-slate-800 mt-1">118 <span class="text-xs font-medium text-slate-500">mg/dL</span></h3>
+                        <p id="dash-avg-status" class="text-xs font-semibold text-emerald-600 flex items-center gap-1 mt-1">
+                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Rentang Terkontrol
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 bg-pink-100 rounded-2xl flex items-center justify-center text-dragon-600">
+                        <i data-lucide="activity" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <div class="gummy-card p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Status Risiko Terakhir</p>
+                        <h3 id="dash-risk-status" class="text-xl font-black text-dragon-600 mt-1">Prediabetes</h3>
+                        <p class="text-xs text-slate-500 mt-1">Evaluasi terkini AI</p>
+                    </div>
+                    <div class="w-12 h-12 bg-moringa-100 rounded-2xl flex items-center justify-center text-moringa-700">
+                        <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <div class="gummy-card p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Target Samco Gummy</p>
+                        <h3 id="dash-target-gummy" class="text-2xl font-black text-slate-800 mt-1">2 <span class="text-xs font-medium text-slate-500">Gummy/Hari</span></h3>
+                        <p class="text-xs text-moringa-700 font-medium mt-1">Sesuai Indeks Glikemik</p>
+                    </div>
+                    <div class="w-12 h-12 bg-pink-100 rounded-2xl flex items-center justify-center text-dragon-600">
+                        <i data-lucide="candy" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <div class="gummy-card p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Catatan Log</p>
+                        <h3 id="dash-total-logs" class="text-2xl font-black text-slate-800 mt-1">7 <span class="text-xs font-medium text-slate-500">Entri</span></h3>
+                        <p class="text-xs text-emerald-600 font-medium mt-1">Aktif Memantau</p>
+                    </div>
+                    <div class="w-12 h-12 bg-moringa-100 rounded-2xl flex items-center justify-center text-moringa-700">
+                        <i data-lucide="calendar" class="w-6 h-6"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Main Sections Split -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Chart Card -->
+                <div class="lg:col-span-2 gummy-card p-6 rounded-3xl shadow-sm border border-slate-200/80 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-extrabold text-slate-800 text-lg flex items-center gap-2">
+                                <i data-lucide="trending-up" class="w-5 h-5 text-dragon-600"></i> Tren Gula Darah Mingguan
+                            </h3>
+                            <p class="text-xs text-slate-500">Grafik hasil pemantauan kadar glukosa dalam seminggu terakhir</p>
+                        </div>
+                        <button onclick="switchTab('monitoring')" class="text-xs font-bold text-dragon-600 hover:text-dragon-700 flex items-center gap-1">
+                            Lihat Detail <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                    <div class="h-64 sm:h-72 w-full">
+                        <canvas id="dashboardChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- AI Quick Advisory Panel -->
+                <div class="gummy-card p-6 rounded-3xl shadow-sm border border-slate-200/80 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-2 text-moringa-800">
+                            <div class="p-2 bg-moringa-100 rounded-xl">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-moringa-700"></i>
+                            </div>
+                            <h3 class="font-extrabold text-slate-800 text-base">Asisten AI Health Samco</h3>
+                        </div>
+                        <div class="bg-gradient-to-br from-pink-50 to-emerald-50 p-4 rounded-2xl border border-pink-100 text-xs text-slate-700 space-y-2 leading-relaxed">
+                            <p class="font-semibold text-dragon-700">📌 Rekomendasi Terkini:</p>
+                            <p id="dash-ai-text">
+                                Kadar glukosa Anda tergolong relatif stabil dalam 3 hari terakhir. Mengonsumsi 2 butir Samco Gummy sebelum/sesudah makan dapat membantu menjaga sensitivitas insulin berkat ekstrak Kelor (*Moringa oleifera*).
+                            </p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 space-y-1 text-xs">
+                            <span class="font-bold text-slate-700 block">Mengapa Samco Gummy?</span>
+                            <p class="text-slate-600">Formulasi rendah indeks glikemik, tinggi antioksidan buah naga merah & kaya flavonoid kelor tanpa memicu spike gula darah.</p>
+                        </div>
+                    </div>
+                    <button onclick="openLogModal()" class="w-full bg-gradient-to-r from-dragon-600 to-moringa-600 text-white font-bold py-3 rounded-xl shadow-md hover:opacity-95 transition text-xs flex items-center justify-center gap-2">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah Catatan Baru
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: DIAGNOSA DIABETES -->
+        <section id="tab-diagnosa" class="tab-content hidden space-y-6">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <!-- Title & Intro -->
+                <div class="text-center space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-dragon-600 bg-pink-100 px-3 py-1 rounded-full">Self-Assessment Tool</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Uji Risiko & Diagnosa Mandiri Diabetes</h2>
+                    <p class="text-slate-600 text-xs sm:text-sm max-w-xl mx-auto">
+                        Evaluasi kadar gula darah Anda secara akurat untuk mendapatkan klasifikasi medis dan saran konsumsi harian Samco Gummy.
+                    </p>
+                </div>
+
+                <!-- Diagnosis Card & Form -->
+                <div class="gummy-card p-6 sm:p-8 rounded-3xl shadow-md border border-pink-100 grid grid-cols-1 md:grid-cols-12 gap-8">
+                    <!-- Input Form -->
+                    <form id="diagnosa-form" onsubmit="calculateDiagnosis(event)" class="md:col-span-7 space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                Kadar Gula Darah (mg/dL) *
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="diag-glucose" min="40" max="600" required placeholder="Contoh: 125" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-dragon-500 focus:border-dragon-500 outline-none transition text-sm font-semibold">
+                                <span class="absolute right-4 top-3.5 text-xs text-slate-400 font-bold">mg/dL</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Kondisi Pengukuran *
+                                </label>
+                                <select id="diag-condition" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-dragon-500 focus:border-dragon-500 outline-none transition text-sm font-medium">
+                                    <option value="fasting">Puasa (Min 8 Jam)</option>
+                                    <option value="postprandial">2 Jam Setelah Makan</option>
+                                    <option value="random">Sewaktu / Acak</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Usia (Tahun)
+                                </label>
+                                <input type="number" id="diag-age" min="1" max="120" placeholder="Contoh: 38" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-dragon-500 focus:border-dragon-500 outline-none transition text-sm">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                Gejala Tambahan yang Dirasakan
+                            </label>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <label class="flex items-center space-x-2 p-2 rounded-lg bg-slate-50 border border-slate-200 cursor-pointer">
+                                    <input type="checkbox" id="sym-thirst" class="rounded text-dragon-600 focus:ring-dragon-500">
+                                    <span>Mudah Haus / Aus</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-2 rounded-lg bg-slate-50 border border-slate-200 cursor-pointer">
+                                    <input type="checkbox" id="sym-fatigue" class="rounded text-dragon-600 focus:ring-dragon-500">
+                                    <span>Sering Cepat Lelah</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-2 rounded-lg bg-slate-50 border border-slate-200 cursor-pointer">
+                                    <input type="checkbox" id="sym-urinate" class="rounded text-dragon-600 focus:ring-dragon-500">
+                                    <span>Sering Buang Air Kecil</span>
+                                </label>
+                                <label class="flex items-center space-x-2 p-2 rounded-lg bg-slate-50 border border-slate-200 cursor-pointer">
+                                    <input type="checkbox" id="sym-blurry" class="rounded text-dragon-600 focus:ring-dragon-500">
+                                    <span>Pandangan Kabur</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-dragon-600 to-moringa-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:opacity-95 transition text-sm flex items-center justify-center gap-2">
+                            <i data-lucide="calculator" class="w-4 h-4"></i> Jalankan Analisis Diagnosa
+                        </button>
+                    </form>
+
+                    <!-- Diagnosis Output Results -->
+                    <div class="md:col-span-5 flex flex-col justify-between bg-slate-50 p-6 rounded-2xl border border-slate-200/80 space-y-4">
+                        <div>
+                            <span class="text-xs font-extrabold text-slate-400 uppercase tracking-widest block mb-1">Hasil Analisis Diagnosa</span>
+                            <div id="diag-result-empty" class="text-center py-8 space-y-2 text-slate-400">
+                                <i data-lucide="clipboard-check" class="w-12 h-12 mx-auto text-slate-300"></i>
+                                <p class="text-xs">Isi formulir di samping untuk menampilkan hasil diagnosa dan rekomendasi.</p>
+                            </div>
+
+                            <div id="diag-result-box" class="hidden space-y-4">
+                                <div id="diag-badge-container" class="inline-block px-3 py-1 rounded-full text-xs font-bold">
+                                    -
+                                </div>
+                                <div>
+                                    <h3 id="diag-status-title" class="text-xl font-extrabold text-slate-900">-</h3>
+                                    <p id="diag-status-desc" class="text-xs text-slate-600 mt-1 leading-relaxed">-</p>
+                                </div>
+
+                                <div class="p-3.5 bg-white rounded-xl border border-slate-200 space-y-1">
+                                    <p class="text-xs font-extrabold text-dragon-700 flex items-center gap-1">
+                                        <i data-lucide="candy" class="w-3.5 h-3.5"></i> Rekomendasi Samco Gummy:
+                                    </p>
+                                    <p id="diag-gummy-advice" class="text-xs text-slate-700 font-medium">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-[11px] text-slate-400 border-t border-slate-200 pt-3">
+                            <b>Catatan Medis:</b> Alat ini merupakan analisis awal berbasis pedoman indikator glukosa. Konsultasikan dengan fasilitas kesehatan atau dokter untuk penanganan medis lebih lanjut.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: AI BLOOD GLUCOSE LOGS & MONITORING -->
+        <section id="tab-monitoring" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900">AI Blood Sugar Monitoring</h2>
+                    <p class="text-xs text-slate-500">Log harian terintegrasi dengan pemantauan pola tren otomatis berbasis kecerdasan buatan</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="exportLogsCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 border border-slate-200">
+                        <i data-lucide="download" class="w-4 h-4"></i> Export CSV
+                    </button>
+                    <button onclick="openLogModal()" class="bg-gradient-to-r from-dragon-600 to-moringa-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow transition flex items-center gap-1.5">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i> Catat Log Baru
+                    </button>
+                </div>
+            </div>
+
+            <!-- Monitoring Detailed Visualizations -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Large Interactive Chart -->
+                <div class="lg:col-span-2 gummy-card p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-extrabold text-slate-800 text-sm sm:text-base flex items-center gap-2">
+                            <i data-lucide="activity" class="w-4 h-4 text-moringa-600"></i> Riwayat Kadar Glukosa
+                        </h3>
+                        <div class="flex gap-2 text-xs">
+                            <span class="inline-flex items-center gap-1 text-slate-500"><span class="w-2.5 h-2.5 rounded-full bg-dragon-500 inline-block"></span> Gula Darah</span>
+                        </div>
+                    </div>
+                    <div class="h-72 w-full">
+                        <canvas id="monitoringChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- AI Analysis Summary Card -->
+                <div class="gummy-card p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2 text-moringa-800">
+                            <div class="p-2 bg-moringa-100 rounded-xl">
+                                <i data-lucide="bot" class="w-5 h-5 text-moringa-700"></i>
+                            </div>
+                            <h3 class="font-extrabold text-slate-800 text-base">Evaluasi AI Log</h3>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2 text-xs">
+                            <p class="font-bold text-slate-800">Korelasional Samco Gummy:</p>
+                            <p class="text-slate-600 leading-relaxed">
+                                Konsumsi rutin Samco Gummy menunjukkan stabilitas glukosa postprandial (setelah makan) sebesar <b>18% lebih stabil</b> berkat peran pemanis alami Xylitol dan serat kelor.
+                            </p>
+                        </div>
+                        <div class="p-3 bg-pink-50 rounded-2xl border border-pink-100 text-xs space-y-1">
+                            <span class="font-bold text-dragon-700">💡 Saran Pola Konsumsi:</span>
+                            <p class="text-slate-700">Konsumsi 1 butir di pagi hari dan 1 butir sore hari sebagai camilan sehat pencegah nafsu makan berlebih.</p>
+                        </div>
+                    </div>
+                    <div class="text-[11px] text-slate-400 text-center pt-2 border-t border-slate-100">
+                        Status Synced • Updated Realtime
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table of Log Entries -->
+            <div class="gummy-card rounded-3xl shadow-sm border border-slate-200/80 overflow-hidden">
+                <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                    <h3 class="font-extrabold text-slate-800 text-base">Riwayat Catatan Harian</h3>
+                    <span class="text-xs text-slate-400">Menampilkan seluruh entri terdaftar</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-100">
+                                <th class="p-4">Tanggal & Waktu</th>
+                                <th class="p-4">Kategori</th>
+                                <th class="p-4">Kadar Gula (mg/dL)</th>
+                                <th class="p-4">Status AI</th>
+                                <th class="p-4">Asupan Samco Gummy</th>
+                                <th class="p-4">Catatan</th>
+                                <th class="p-4 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-table-body" class="divide-y divide-slate-100 font-medium">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: CALCULATOR & DOSAGE -->
+        <section id="tab-calculator" class="tab-content hidden space-y-6">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="text-center space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-moringa-700 bg-moringa-100 px-3 py-1 rounded-full">Interactive Dosage Finder</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Kalkulator Dosis & Kebutuhan Samco Gummy</h2>
+                    <p class="text-slate-600 text-xs sm:text-sm max-w-xl mx-auto">
+                        Hitung takaran ideal konsumsi harian dan estimasi suplai kemasan Samco Gummy berdasarkan berat badan & target kontrol gula darah.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                    <!-- Calculator Inputs -->
+                    <div class="md:col-span-7 gummy-card p-6 sm:p-8 rounded-3xl shadow-sm border border-moringa-100 space-y-5">
+                        <h3 class="font-extrabold text-slate-800 text-base flex items-center gap-2">
+                            <i data-lucide="sliders" class="w-5 h-5 text-moringa-600"></i> Parameter Personal
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Berat Badan (kg)
+                                </label>
+                                <input type="number" id="calc-weight" value="65" min="30" max="200" oninput="calculateGummyDosage()" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-moringa-500 outline-none text-sm font-semibold">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Target / Kondisi Kesehatan
+                                </label>
+                                <select id="calc-goal" onchange="calculateGummyDosage()" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-moringa-500 outline-none text-sm font-medium">
+                                    <option value="maintain">Pencegahan / Menjaga Kesehatan (Gula Darah Normal)</option>
+                                    <option value="prediabetes">Pengendalian Prediabetes (Gula Darah 100 - 125 mg/dL)</option>
+                                    <option value="diabetes">Pengelolaan Diabetes Type 2 (Gula Darah > 126 mg/dL)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Rencana Durasi Konsumsi (Hari)
+                                </label>
+                                <input type="number" id="calc-days" value="30" min="7" max="180" oninput="calculateGummyDosage()" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-moringa-500 outline-none text-sm font-semibold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculator Output Card -->
+                    <div class="md:col-span-5 bg-gradient-to-br from-moringa-700 to-moringa-900 text-white p-6 sm:p-8 rounded-3xl shadow-lg flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <span class="text-xs font-extrabold uppercase tracking-widest text-moringa-200">Hasil Rekomendasi Takaran</span>
+                            
+                            <div>
+                                <div class="flex items-baseline space-x-2">
+                                    <span id="calc-result-gummy" class="text-4xl font-black text-white">2</span>
+                                    <span class="text-lg font-bold text-moringa-200">Butir / Hari</span>
+                                </div>
+                                <p id="calc-timing-text" class="text-xs text-moringa-100 mt-1">Dikonsumsi 1 butir sebelum makan siang & 1 butir sore hari.</p>
+                            </div>
+
+                            <div class="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/15 space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-moringa-200">Total Kebutuhan:</span>
+                                    <span id="calc-total-gummy-count" class="font-bold">60 Butir</span>
+                                </div>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-moringa-200">Estimasi Kemasan (50g):</span>
+                                    <span id="calc-packs-needed" class="font-bold text-yellow-300">3 Pouch</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="text-[11px] text-moringa-200 leading-relaxed">
+                                ✨ Formulasi kaya antioksidan dari Ekstrak Kelor & Buah Naga Merah membantu memelihara kebugaran tubuh tanpa risiko hiperglikemia.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: EDUKASI & BAHAN SAMCO GUMMY -->
+        <section id="tab-edukasi" class="tab-content hidden space-y-8">
+            <!-- Header Banner -->
+            <div class="text-center space-y-2 max-w-2xl mx-auto">
+                <span class="text-xs font-bold uppercase tracking-wider text-dragon-600 bg-pink-100 px-3 py-1 rounded-full">Knowledge Hub</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Edukasi Diabetes & Formulasi Samco Gummy</h2>
+                <p class="text-slate-600 text-xs sm:text-sm">
+                    Pelajari bagaimana kombinasi bahan alami kualitas tinggi bekerja secara sinergis menjaga kadar gula darah tetap stabil.
+                </p>
+            </div>
+
+            <!-- Ingredients Showcase Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Moringa / Kelor -->
+                <div class="gummy-card p-6 rounded-3xl shadow-sm border border-moringa-200 space-y-4 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-moringa-100 text-moringa-700 rounded-2xl flex items-center justify-center">
+                        <i data-lucide="leaf" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-lg">Moringa Oleifera (Kelor)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Kaya akan senyawa flavonoid, isotiosianat, dan asam klorogenat yang terbukti klinis meningkatkan sensitivitas insulin dan menghambat penyerapan glukosa berlebih di usus.
+                    </p>
+                    <div class="pt-2">
+                        <span class="inline-block bg-moringa-50 text-moringa-700 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-moringa-200">
+                            🌿 Rich in Anti-inflammatory
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Red Dragon Fruit -->
+                <div class="gummy-card p-6 rounded-3xl shadow-sm border border-pink-200 space-y-4 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-pink-100 text-dragon-600 rounded-2xl flex items-center justify-center">
+                        <i data-lucide="apple" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-lg">Red Dragon Fruit (Hylocereus sp.)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Memberikan warna merah alami menarik dan cita rasa segar. Mengandung serat pangan larut tinggi serta betasianin sebagai antioksidan penangkal radikal bebas pembuluh darah.
+                    </p>
+                    <div class="pt-2">
+                        <span class="inline-block bg-pink-50 text-dragon-700 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-pink-200">
+                            🐉 High Antioxidant Power
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Xylitol & Low GI -->
+                <div class="gummy-card p-6 rounded-3xl shadow-sm border border-amber-200 space-y-4 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center">
+                        <i data-lucide="sparkles" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-lg">Xylitol & Low Glycemic Index</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Menggunakan pemanis alami Xylitol dengan indeks glikemik sangat rendah (GI ~7) dibandingkan gula pasir (GI ~65), mencegah reaksi spikemia gula darah pasca makan.
+                    </p>
+                    <div class="pt-2">
+                        <span class="inline-block bg-amber-50 text-amber-700 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-amber-200">
+                            🍬 Zero Sucrose Added
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ & Educational Accordion Section -->
+            <div class="gummy-card p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-4">
+                <h3 class="font-extrabold text-slate-900 text-lg flex items-center gap-2">
+                    <i data-lucide="help-circle" class="w-5 h-5 text-dragon-600"></i> Pertanyaan Sering Diajukan (FAQ)
+                </h3>
+
+                <div class="space-y-3 text-xs sm:text-sm">
+                    <details class="group bg-slate-50 p-4 rounded-2xl border border-slate-200/80 [&_summary::-webkit-details-marker]:hidden">
+                        <summary class="flex items-center justify-between font-bold text-slate-800 cursor-pointer">
+                            <span>Apakah Samco Gummy aman dikonsumsi oleh penderita diabetes melitus tipe 2?</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <p class="mt-2 text-slate-600 leading-relaxed">
+                            Sangat aman. Samco Gummy dirancang khusus tanpa gula pasir murni, menggunakan pemanis alami Xylitol dan diperkaya serat alami ekstrak Kelor yang terbukti aman bagi penderita diabetes.
+                        </p>
+                    </details>
+
+                    <details class="group bg-slate-50 p-4 rounded-2xl border border-slate-200/80 [&_summary::-webkit-details-marker]:hidden">
+                        <summary class="flex items-center justify-between font-bold text-slate-800 cursor-pointer">
+                            <span>Berapa batasan maksimal konsumsi Samco Gummy per hari?</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <p class="mt-2 text-slate-600 leading-relaxed">
+                            Anjuran standar adalah 2 hingga 4 butir per hari. Anda dapat menyesuaikan dengan alat Kalkulator Dosis yang tersedia di platform ini.
+                        </p>
+                    </details>
+
+                    <details class="group bg-slate-50 p-4 rounded-2xl border border-slate-200/80 [&_summary::-webkit-details-marker]:hidden">
+                        <summary class="flex items-center justify-between font-bold text-slate-800 cursor-pointer">
+                            <span>Bagaimana cara kerja Moringa (Kelor) membantu mengontrol glukosa darah?</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition"></i>
+                        </summary>
+                        <p class="mt-2 text-slate-600 leading-relaxed">
+                            Kelor mengandung glukosinolat dan isoquercetin yang menargetkan enzim pencernaan karbohidrat, memperlambat pelepasan glukosa ke aliran darah sehingga lonjakan glukosa tidak terjadi mendadak.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- LOG ENTRY MODAL -->
+    <div id="log-modal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-6 space-y-4 border border-pink-100">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-dragon-600"></i> Catat Kadar Gula Darah
+                </h3>
+                <button onclick="closeLogModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form id="add-log-form" onsubmit="handleSaveLog(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Kadar Gula Darah (mg/dL) *</label>
+                    <input type="number" id="modal-glucose" required min="40" max="600" placeholder="Contoh: 115" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-dragon-500 outline-none text-sm font-bold">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Tanggal</label>
+                        <input type="date" id="modal-date" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-dragon-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Waktu</label>
+                        <input type="time" id="modal-time" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-dragon-500 outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Kategori Pengukuran</label>
+                    <select id="modal-category" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-dragon-500 outline-none">
+                        <option value="Puasa">Puasa</option>
+                        <option value="2 Jam Setelah Makan">2 Jam Setelah Makan</option>
+                        <option value="Sebelum Makan">Sebelum Makan</option>
+                        <option value="Sebelum Tidur">Sebelum Tidur</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Konsumsi Samco Gummy Hari Ini</label>
+                    <select id="modal-gummy-intake" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-dragon-500 outline-none">
+                        <option value="2 Butir">2 Butir (Rekomendasi)</option>
+                        <option value="1 Butir">1 Butir</option>
+                        <option value="3 Butir">3 Butir</option>
+                        <option value="Tidak Konsumsi">Tidak Konsumsi</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Catatan Opsional</label>
+                    <input type="text" id="modal-note" placeholder="Misal: Makan siang dengan porsi nasi sedang" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-dragon-500 outline-none">
+                </div>
+
+                <div class="pt-2 flex gap-3">
+                    <button type="button" onclick="closeLogModal()" class="w-1/2 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 transition">
+                        Batal
+                    </button>
+                    <button type="submit" class="w-1/2 py-3 rounded-xl bg-gradient-to-r from-dragon-600 to-moringa-600 text-white font-bold shadow-md hover:opacity-95 transition">
+                        Simpan Catatan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-dragon-600 text-white font-black rounded-xl flex items-center justify-center text-sm">
+                    SG
+                </div>
+                <div>
+                    <p class="font-bold text-slate-200">SAMCO GUMMY Health App</p>
+                    <p class="text-[11px] text-slate-500">Inovasi Cerdas Pencegahan & Pengendalian Diabetes</p>
+                </div>
+            </div>
+            <p class="text-center md:text-right text-[11px] text-slate-500">
+                &copy; 2026 Samco Gummy • Healthy Bite for a Brighter Tomorrow. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Data State Store
+        let state = {
+            logs: [
+                { id: 1, date: '2026-10-02', time: '07:30', glucose: 105, category: 'Puasa', status: 'Normal', intake: '2 Butir', note: 'Setelah berolahraga pagi' },
+                { id: 2, date: '2026-10-03', time: '13:00', glucose: 142, category: '2 Jam Setelah Makan', status: 'Sedikit Tinggi', intake: '2 Butir', note: 'Makan siang porsi normal' },
+                { id: 3, date: '2026-10-04', time: '07:15', glucose: 110, category: 'Puasa', status: 'Prediabetes', intake: '2 Butir', note: 'Puasa 9 jam' },
+                { id: 4, date: '2026-10-05', time: '12:45', glucose: 135, category: '2 Jam Setelah Makan', status: 'Normal', intake: '2 Butir', note: 'Rutin konsumsi Samco' },
+                { id: 5, date: '2026-10-06', time: '07:30', glucose: 118, category: 'Puasa', status: 'Prediabetes', intake: '2 Butir', note: 'Kondisi tubuh fit' },
+                { id: 6, date: '2026-10-07', time: '13:15', glucose: 128, category: '2 Jam Setelah Makan', status: 'Normal', intake: '2 Butir', note: 'Pola makan terjaga' },
+                { id: 7, date: '2026-10-08', time: '07:00', glucose: 112, category: 'Puasa', status: 'Prediabetes', intake: '2 Butir', note: 'Pemeriksaan rutin' }
+            ]
+        };
+
+        let dashboardChartInstance = null;
+        let monitoringChartInstance = null;
+
+        // Initialize App on DOM Load
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            setDefaultDateTimeModal();
+            renderLogsTable();
+            updateDashboardMetrics();
+            initCharts();
+            calculateGummyDosage();
+        });
+
+        // Tab Switching Handler
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'text-white', 'border-b-2', 'border-white');
+                btn.classList.add('text-pink-100');
+            });
+
+            const targetTab = document.getElementById(`tab-${tabName}`);
+            const targetNav = document.getElementById(`nav-${tabName}`);
+
+            if (targetTab && targetNav) {
+                targetTab.classList.remove('hidden');
+                targetNav.classList.add('active', 'text-white', 'border-b-2', 'border-white');
+                targetNav.classList.remove('text-pink-100');
+            }
+
+            // Re-render chart on tab switch for correct responsiveness
+            if (tabName === 'dashboard' && dashboardChartInstance) {
+                dashboardChartInstance.resize();
+            } else if (tabName === 'monitoring' && monitoringChartInstance) {
+                monitoringChartInstance.resize();
+            }
+        }
+
+        // Set Default Modal Date Time
+        function setDefaultDateTimeModal() {
+            const now = new Date();
+            document.getElementById('modal-date').value = now.toISOString().split('T')[0];
+            document.getElementById('modal-time').value = now.toTimeString().substring(0, 5);
+        }
+
+        // Open & Close Log Modal
+        function openLogModal() {
+            document.getElementById('log-modal').classList.remove('hidden');
+        }
+
+        function closeLogModal() {
+            document.getElementById('log-modal').classList.add('hidden');
+        }
+
+        // Save New Log Handler
+        function handleSaveLog(e) {
+            e.preventDefault();
+            const glucoseVal = parseFloat(document.getElementById('modal-glucose').value);
+            const dateVal = document.getElementById('modal-date').value;
+            const timeVal = document.getElementById('modal-time').value;
+            const catVal = document.getElementById('modal-category').value;
+            const intakeVal = document.getElementById('modal-gummy-intake').value;
+            const noteVal = document.getElementById('modal-note').value || '-';
+
+            let statusStr = 'Normal';
+            if (glucoseVal > 140) statusStr = 'Diabetes';
+            else if (glucoseVal >= 100) statusStr = 'Prediabetes';
+
+            const newLog = {
+                id: Date.now(),
+                date: dateVal,
+                time: timeVal,
+                glucose: glucoseVal,
+                category: catVal,
+                status: statusStr,
+                intake: intakeVal,
+                note: noteVal
+            };
+
+            state.logs.push(newLog);
+            state.logs.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            renderLogsTable();
+            updateDashboardMetrics();
+            updateCharts();
+            closeLogModal();
+            document.getElementById('add-log-form').reset();
+            setDefaultDateTimeModal();
+        }
+
+        // Delete Log Handler
+        function deleteLog(id) {
+            state.logs = state.logs.filter(item => item.id !== id);
+            renderLogsTable();
+            updateDashboardMetrics();
+            updateCharts();
+        }
+
+        // Render Table Rows
+        function renderLogsTable() {
+            const tbody = document.getElementById('logs-table-body');
+            tbody.innerHTML = '';
+
+            state.logs.slice().reverse().forEach(log => {
+                let badgeStyle = 'bg-emerald-100 text-emerald-800 border-emerald-200';
+                if (log.status === 'Prediabetes') badgeStyle = 'bg-amber-100 text-amber-800 border-amber-200';
+                if (log.status === 'Diabetes') badgeStyle = 'bg-rose-100 text-rose-800 border-rose-200';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+                tr.innerHTML = `
+                    <td class="p-4 font-bold text-slate-800">${log.date} <span class="text-[10px] text-slate-400 font-normal">(${log.time})</span></td>
+                    <td class="p-4">${log.category}</td>
+                    <td class="p-4 font-extrabold text-slate-900">${log.glucose} mg/dL</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold border ${badgeStyle}">${log.status}</span>
+                    </td>
+                    <td class="p-4 text-dragon-700 font-semibold">${log.intake}</td>
+                    <td class="p-4 text-slate-500 max-w-xs truncate">${log.note}</td>
+                    <td class="p-4 text-center">
+                        <button onclick="deleteLog(${log.id})" class="text-rose-500 hover:text-rose-700 p-1">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            lucide.createIcons();
+        }
+
+        // Calculate Diagnosis Algorithm
+        function calculateDiagnosis(e) {
+            e.preventDefault();
+            const val = parseFloat(document.getElementById('diag-glucose').value);
+            const condition = document.getElementById('diag-condition').value;
+
+            if (!val) return;
+
+            const box = document.getElementById('diag-result-box');
+            const emptyState = document.getElementById('diag-result-empty');
+            const badgeContainer = document.getElementById('diag-badge-container');
+            const titleEl = document.getElementById('diag-status-title');
+            const descEl = document.getElementById('diag-status-desc');
+            const adviceEl = document.getElementById('diag-gummy-advice');
+
+            emptyState.classList.add('hidden');
+            box.classList.remove('hidden');
+
+            let status = 'Normal';
+            let desc = '';
+            let advice = '';
+            let badgeClass = '';
+
+            if (condition === 'fasting') {
+                if (val < 100) {
+                    status = 'Kadar Gula Darah Normal';
+                    desc = 'Kadar gula darah puasa Anda berada pada rentang ideal. Tetap jaga pola makan bergizi seimbang.';
+                    advice = '1-2 Samco Gummy per hari sebagai camilan kaya antioksidan rendah indeks glikemik.';
+                    badgeClass = 'bg-emerald-100 text-emerald-800 border border-emerald-300';
+                } else if (val >= 100 && val <= 125) {
+                    status = 'Indikasi Prediabetes';
+                    desc = 'Gula darah puasa Anda sedikit di atas rata-rata normal. Diperlukan perhatian khusus pada asupan karbohidrat.';
+                    advice = '2 Butir Samco Gummy/hari. Kandungan ekstrak Kelor & Buah Naga membantu tingkatkan sensitivitas sel insulin.';
+                    badgeClass = 'bg-amber-100 text-amber-800 border border-amber-300';
+                } else {
+                    status = 'Indikasi Diabetes Melitus';
+                    desc = 'Kadar glukosa puasa tergolong tinggi. Disarankan melakukan konfirmasi tes laboratorium dan konsultasi dokter.';
+                    advice = '2-3 Butir Samco Gummy/hari sebagai pengganti permen biasa tanpa risiko spikemia gula darah.';
+                    badgeClass = 'bg-rose-100 text-rose-800 border border-rose-300';
+                }
+            } else {
+                if (val < 140) {
+                    status = 'Gula Darah Terkontrol';
+                    desc = 'Respon glukosa setelah makan tergolong sangat stabil.';
+                    advice = '1-2 Samco Gummy per hari untuk menjaga kecukupan antioksidan harian.';
+                    badgeClass = 'bg-emerald-100 text-emerald-800 border border-emerald-300';
+                } else if (val >= 140 && val <= 199) {
+                    status = 'Indikasi Prediabetes';
+                    desc = 'Terjadi respons kenaikan glukosa setelah makan yang cukup signifikan.';
+                    advice = '2 Butir Samco Gummy sebelum/sesudah makan untuk menekan respon glikemik porsi makanan.';
+                    badgeClass = 'bg-amber-100 text-amber-800 border border-amber-300';
+                } else {
+                    status = 'Indikasi Diabetes Melitus';
+                    desc = 'Kadar glukosa pasca makan tergolong tinggi. Kendalikan konsumsi karbohidrat murni.';
+                    advice = 'Gantikan camilan manis sepenuhnya dengan Samco Gummy (bebas sukrosa tambhan).';
+                    badgeClass = 'bg-rose-100 text-rose-800 border border-rose-300';
+                }
+            }
+
+            badgeContainer.className = `inline-block px-3 py-1 rounded-full text-xs font-bold ${badgeClass}`;
+            badgeContainer.textContent = status;
+            titleEl.textContent = `${val} mg/dL`;
+            descEl.textContent = desc;
+            adviceEl.textContent = advice;
+        }
+
+        // Calculate Dosage Tool
+        function calculateGummyDosage() {
+            const weight = parseFloat(document.getElementById('calc-weight').value) || 60;
+            const goal = document.getElementById('calc-goal').value;
+            const days = parseInt(document.getElementById('calc-days').value) || 30;
+
+            let dailyDosage = 2;
+            let timing = 'Dikonsumsi 1 butir sebelum makan siang & 1 butir sore hari.';
+
+            if (goal === 'prediabetes') {
+                dailyDosage = 2;
+                timing = 'Dikonsumsi 1 butir pagi hari & 1 butir sebelum makan malam.';
+            } else if (goal === 'diabetes') {
+                dailyDosage = 3;
+                timing = 'Dikonsumsi 1 butir pagi, 1 butir siang, dan 1 butir sore hari.';
+            } else if (weight > 80) {
+                dailyDosage = 3;
+            }
+
+            const totalGummies = dailyDosage * days;
+            // Assuming 1 pouch contains ~20 gummies (50g)
+            const packsNeeded = Math.ceil(totalGummies / 20);
+
+            document.getElementById('calc-result-gummy').textContent = dailyDosage;
+            document.getElementById('calc-timing-text').textContent = timing;
+            document.getElementById('calc-total-gummy-count').textContent = `${totalGummies} Butir`;
+            document.getElementById('calc-packs-needed').textContent = `${packsNeeded} Pouch (50g)`;
+        }
+
+        // Update Dashboard Summary Cards
+        function updateDashboardMetrics() {
+            if (state.logs.length === 0) return;
+
+            const sum = state.logs.reduce((acc, curr) => acc + curr.glucose, 0);
+            const avg = Math.round(sum / state.logs.length);
+
+            document.getElementById('dash-avg-glucose').innerHTML = `${avg} <span class="text-xs font-medium text-slate-500">mg/dL</span>`;
+            document.getElementById('dash-total-logs').innerHTML = `${state.logs.length} <span class="text-xs font-medium text-slate-500">Entri</span>`;
+
+            const lastLog = state.logs[state.logs.length - 1];
+            document.getElementById('dash-risk-status').textContent = lastLog.status;
+        }
+
+        // Initialize Charts
+        function initCharts() {
+            const labels = state.logs.map(l => l.date);
+            const dataValues = state.logs.map(l => l.glucose);
+
+            // Dashboard Chart
+            const ctxDash = document.getElementById('dashboardChart').getContext('2d');
+            dashboardChartInstance = new Chart(ctxDash, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Gula Darah (mg/dL)',
+                        data: dataValues,
+                        borderColor: '#db2777',
+                        backgroundColor: 'rgba(219, 39, 119, 0.08)',
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: '#16a34a',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { min: 60, max: 200, grid: { color: '#f1f5f9' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Monitoring Detailed Chart
+            const ctxMon = document.getElementById('monitoringChart').getContext('2d');
+            monitoringChartInstance = new Chart(ctxMon, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Gula Darah (mg/dL)',
+                        data: dataValues,
+                        backgroundColor: '#16a34a',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { min: 0, max: 220, grid: { color: '#f1f5f9' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // Update Charts Data Dynamics
+        function updateCharts() {
+            const labels = state.logs.map(l => l.date);
+            const dataValues = state.logs.map(l => l.glucose);
+
+            if (dashboardChartInstance) {
+                dashboardChartInstance.data.labels = labels;
+                dashboardChartInstance.data.datasets[0].data = dataValues;
+                dashboardChartInstance.update();
+            }
+
+            if (monitoringChartInstance) {
+                monitoringChartInstance.data.labels = labels;
+                monitoringChartInstance.data.datasets[0].data = dataValues;
+                monitoringChartInstance.update();
+            }
+        }
+
+        // Export Logs to CSV
+        function exportLogsCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,Tanggal,Waktu,Gula Darah (mg/dL),Kategori,Status,Konsumsi Samco,Catatan\n";
+            state.logs.forEach(l => {
+                csvContent += `${l.date},${l.time},${l.glucose},${l.category},${l.status},${l.intake},"${l.note}"\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "SamcoGummy_BloodGlucose_Logs.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
